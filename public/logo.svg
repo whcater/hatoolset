@@ -1,0 +1,5 @@
+<svg width="120" height="32" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M10 8H22C23.1046 8 24 8.89543 24 10V22C24 23.1046 23.1046 24 22 24H10C8.89543 24 8 23.1046 8 22V10C8 8.89543 8.89543 8 10 8Z" fill="#2563EB"/>
+  <path d="M16 12V20M12 16H20" stroke="white" stroke-width="2" stroke-linecap="round"/>
+  <text x="32" y="20" font-family="system-ui" font-size="16" font-weight="600" fill="#1F2937">HA Tools</text>
+</svg> 
