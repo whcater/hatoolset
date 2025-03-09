@@ -1,0 +1,41 @@
+{
+  "name": "backend-api",
+  "version": "1.0.0",
+  "description": "后端API服务",
+  "main": "worker/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --compatibility-flag=nodejs_compat",
+    "deploy": "wrangler deploy --compatibility-flag=nodejs_compat",
+    "deploy:pages": "node scripts/deploy-pages.js",
+    "db:migrate": "wrangler d1 execute coredb --file=./src/db/migrations/init.sql",
+    "db:migrate:remote": "wrangler d1 execute coredb --remote --file=./src/db/migrations/init.sql",
+    "test": "jest",
+    "backend:dev": "npm run dev",
+    "backend:deploy": "npm run deploy",
+    "generate-docs": "node scripts/generate-openapi.js",
+    "predeploy": "npm run generate-docs"
+  },
+  "keywords": [
+    "ai",
+    "avatar",
+    "business",
+    "portrait"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "jsonwebtoken": "^9.0.1",
+    "nodemailer": "^6.10.0",
+    "swagger-jsdoc": "^6.2.8"
+  },
+  "devDependencies": {
+    "jest": "^29.6.2",
+    "wrangler": "^3.5.0"
+  }
+}

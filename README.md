@@ -1,4 +1,4 @@
- # high availability tool set 高可用工具集
+ # high available tool set 高可用工具集
 
 一个高可用的在线工具集合网站，使用 React 18 + TypeScript + Vite 构建。
 

@@ -1,0 +1,16 @@
+name = "backend-api"
+main = "worker/index.js"
+compatibility_date = "2025-03-01"
+compatibility_flags = ["nodejs_compat"]
+
+[build]
+command = "npm install"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "coredb"
+database_id = "2ace919b-c8e2-405d-9ec0-a743903d8f41"
+
+[observability]
+enabled = true
+head_sampling_rate = 1
