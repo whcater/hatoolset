@@ -1,69 +1,204 @@
-import { Link } from 'react-router-dom';
-import { categories } from '../data/tools';
+import React, { useState } from 'react';
+import { useTranslation } from 'next-i18next';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { 
+  Button, 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger,
+  Sheet,
+  SheetContent,
+  SheetTrigger
+} from '@/components/ui';
+import { Menu, X, Globe, User, Search } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 
-export const Header = () => {
+const Header: React.FC = () => {
+  const { t } = useTranslation('common');
+  const router = useRouter();
+  const { user, logout } = useAuth();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+  // 语言切换
+  const changeLanguage = (lng: string) => {
+    router.push(router.pathname, router.asPath, { locale: lng });
+  };
+  
+  // 导航菜单项
+  const navItems = [
+    { href: '/', label: t('nav.home') },
+    { href: '/tools', label: t('nav.tools') },
+    { href: '/tech-stacks', label: t('nav.techStacks') },
+    { href: '/case-studies', label: t('nav.caseStudies') },
+    { href: '/about', label: t('nav.about') },
+  ];
+  
   return (
-    <header className="w-full bg-white border-b border-gray-200">
-      <div className="max-w-[1320px] mx-auto px-4">
-        <div className="flex items-center h-[60px]">
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center mr-8">
-              <span className="text-xl font-bold">HA Tools</span>
-            </Link>
-            
-            <nav className="flex items-center space-x-1">
-              {categories.map((category) => (
-                <div key={category.id} className="relative group">
-                  <button className="flex items-center h-[60px] px-4 text-[15px] hover:bg-gray-50">
-                    <span>{category.name}</span>
-                    <svg className="w-4 h-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </button>
-                  <div className="absolute left-0 hidden pt-1 group-hover:block z-50">
-                    <div className="bg-white shadow-lg border border-gray-100 rounded-lg py-2 w-[280px]">
-                      {category.tools.map((tool) => (
-                        <Link
-                          key={tool.id}
-                          to={tool.path}
-                          className="flex items-center px-4 py-2.5 text-[14px] hover:bg-gray-50"
-                        >
-                          <div className="w-8 h-8 flex items-center justify-center mr-3">
-                            <img src={tool.icon} alt="" className="w-6 h-6" />
-                          </div>
-                          <div>
-                            <div className="font-medium text-gray-900">{tool.name}</div>
-                            <div className="text-[13px] text-gray-500 mt-0.5">{tool.description}</div>
-                          </div>
-                          {tool.isNew && (
-                            <span className="ml-auto px-1.5 py-0.5 text-[11px] bg-yellow-400 text-black rounded">NEW</span>
-                          )}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </nav>
-          </div>
-
-          <div className="ml-auto flex items-center">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
+      <div className="container flex h-16 items-center justify-between">
+        {/* Logo */}
+        <Link href="/" className="flex items-center space-x-2">
+          <span className="text-xl font-bold">高可用工具集</span>
+        </Link>
+        
+        {/* 桌面导航 */}
+        <nav className="hidden md:flex items-center space-x-6">
+          {navItems.map((item) => (
             <Link 
-              to="/"
-              className="flex items-center px-4 py-1.5 text-[14px] text-white bg-blue-600 rounded hover:bg-blue-700"
+              key={item.href} 
+              href={item.href}
+              className="text-sm font-medium transition-colors hover:text-primary"
             >
-              开始使用
-              <span className="ml-1.5 px-1.5 py-0.5 text-[11px] bg-yellow-400 text-black rounded">Beta</span>
+              {item.label}
             </Link>
-            <Link 
-              to="/login"
-              className="ml-4 px-4 py-1.5 text-[14px] text-gray-600 hover:text-black"
-            >
-              登录
-            </Link>
-          </div>
+          ))}
+        </nav>
+        
+        {/* 搜索按钮 */}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => router.push('/search')}
+          className="mr-2"
+        >
+          <Search className="h-5 w-5" />
+          <span className="sr-only">{t('search')}</span>
+        </Button>
+        
+        {/* 用户菜单 */}
+        <div className="hidden md:flex items-center space-x-2">
+          {/* 语言切换 */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Globe className="h-5 w-5" />
+                <span className="sr-only">{t('language')}</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => changeLanguage('zh')}>
+                中文
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => changeLanguage('en')}>
+                English
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          
+          {/* 用户菜单或登录按钮 */}
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <User className="h-5 w-5" />
+                  <span className="sr-only">{t('userMenu')}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => router.push('/profile')}>
+                  {t('profile')}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push('/favorites')}>
+                  {t('favorites')}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={logout}>
+                  {t('logout')}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button onClick={() => router.push('/login')}>
+              {t('login')}
+            </Button>
+          )}
         </div>
+        
+        {/* 移动端菜单 */}
+        <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+          <SheetTrigger asChild className="md:hidden">
+            <Button variant="ghost" size="icon">
+              <Menu className="h-5 w-5" />
+              <span className="sr-only">菜单</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left">
+            <div className="flex flex-col h-full">
+              <div className="flex items-center justify-between border-b py-4">
+                <span className="text-lg font-bold">高可用工具集</span>
+                <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(false)}>
+                  <X className="h-5 w-5" />
+                </Button>
+              </div>
+              
+              <nav className="flex flex-col gap-4 py-6">
+                {navItems.map((item) => (
+                  <Link 
+                    key={item.href} 
+                    href={item.href}
+                    className="text-base font-medium transition-colors hover:text-primary"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+              
+              <div className="mt-auto border-t py-4 flex flex-col gap-2">
+                {user ? (
+                  <>
+                    <Button variant="outline" onClick={() => {
+                      router.push('/profile');
+                      setIsMenuOpen(false);
+                    }}>
+                      {t('profile')}
+                    </Button>
+                    <Button variant="outline" onClick={() => {
+                      logout();
+                      setIsMenuOpen(false);
+                    }}>
+                      {t('logout')}
+                    </Button>
+                  </>
+                ) : (
+                  <Button onClick={() => {
+                    router.push('/login');
+                    setIsMenuOpen(false);
+                  }}>
+                    {t('login')}
+                  </Button>
+                )}
+                
+                <div className="flex gap-2 mt-2">
+                  <Button 
+                    variant="outline" 
+                    className="flex-1"
+                    onClick={() => {
+                      changeLanguage('zh');
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    中文
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="flex-1"
+                    onClick={() => {
+                      changeLanguage('en');
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    English
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </header>
   );
-}; 
+};
+
+export default Header; 

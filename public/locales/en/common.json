@@ -1,0 +1,16 @@
+{
+  "nav": {
+    "home": "Home",
+    "tools": "Tools",
+    "techStacks": "Tech Stacks",
+    "caseStudies": "Case Studies",
+    "about": "About"
+  },
+  "search": "Search",
+  "language": "Language",
+  "userMenu": "User Menu",
+  "profile": "Profile",
+  "favorites": "Favorites",
+  "login": "Login",
+  "logout": "Logout"
+} 

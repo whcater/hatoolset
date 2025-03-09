@@ -1,4 +1,7 @@
 import authService from '../services/authService.js';
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const { User } = require('../models/userModel');
 
 export default {
   async login(req, res, next) {
@@ -24,19 +27,35 @@ export default {
   
   async register(req, res, next) {
     try {
-      const userData = req.body;
+      const { email, password, name } = req.body;
       
-      // 验证请求数据
-      if (!userData.username || !userData.email || !userData.password) {
-        return res.status(400).json({ message: '用户名、邮箱和密码不能为空' });
+      // 检查邮箱是否已存在
+      const existingUser = await User.findByEmail(email);
+      if (existingUser) {
+        return res.status(400).json({ message: '该邮箱已注册' });
       }
       
-      // 注册
-      const userId = await authService.register(req, userData);
+      // 加密密码
+      const hashedPassword = await bcrypt.hash(password, 10);
       
-      return res.status(201).json({ 
-        message: '注册成功，请检查邮箱验证您的账号', 
-        userId 
+      // 创建用户
+      const user = await User.create({
+        email,
+        password: hashedPassword,
+        name,
+        roles: ['user']
+      });
+      
+      // 生成令牌
+      const token = generateToken(user.id);
+      
+      // 返回用户信息（不包含密码）
+      const { password: _, ...userWithoutPassword } = user;
+      
+      res.status(201).json({
+        message: '注册成功',
+        user: userWithoutPassword,
+        token
       });
     } catch (error) {
       if (error.message === '该邮箱已被注册' || error.message === '该用户名已被使用') {
@@ -192,6 +211,18 @@ export default {
     } catch (error) {
       next(error);
     }
+  },
+  
+  /**
+   * 获取当前用户信息
+   */
+  async getCurrentUser(req, res) {
+    // 用户信息在authenticate中间件中已添加到req对象
+    const { password: _, ...userWithoutPassword } = req.user;
+    
+    res.json({
+      user: userWithoutPassword
+    });
   }
 };
 
@@ -206,4 +237,15 @@ async function getGithubUserData(code) {
 
 async function getWechatUserData(code) {
   // 实现获取微信用户数据的逻辑
+}
+
+/**
+ * 生成JWT令牌
+ */
+function generateToken(userId) {
+  return jwt.sign(
+    { userId },
+    process.env.JWT_SECRET,
+    { expiresIn: '7d' }
+  );
 } 

@@ -1,0 +1,16 @@
+{
+  "nav": {
+    "home": "首页",
+    "tools": "工具集",
+    "techStacks": "技术栈",
+    "caseStudies": "案例分析",
+    "about": "关于我们"
+  },
+  "search": "搜索",
+  "language": "语言",
+  "userMenu": "用户菜单",
+  "profile": "个人资料",
+  "favorites": "收藏",
+  "login": "登录",
+  "logout": "退出"
+} 

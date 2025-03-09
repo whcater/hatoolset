@@ -1,7 +1,28 @@
-name = "backend-api"
-main = "worker/index.js"
-compatibility_date = "2025-03-01"
-compatibility_flags = ["nodejs_compat"]
+name = "高可用工具集"
+main = "worker.js"
+compatibility_date = "2023-09-04"
+
+# 绑定Prisma客户端
+[vars]
+NODE_VERSION = "18"
+
+# 开发环境变量
+[vars.development]
+JWT_SECRET = "开发环境_JWT密钥"
+NODE_ENV = "development"
+
+# 生产环境变量（需要在Cloudflare Workers后台设置）
+[vars.production]
+NODE_ENV = "production"
+
+# 路由配置
+[[routes]]
+pattern = "/api/*"
+script = "worker.js"
+
+# 静态资源（Cloudflare Pages）
+[site]
+bucket = "./dist"
 
 [build]
 command = "npm install"
