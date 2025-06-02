@@ -1,5 +1,5 @@
 import { Tool } from '../types';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 interface ToolCardProps {
   tool: Tool;
@@ -7,10 +7,7 @@ interface ToolCardProps {
 
 export const ToolCard = ({ tool }: ToolCardProps) => {
   return (
-    <Link 
-      to={tool.path}
-      className="block bg-[#f8f9fa] rounded-xl p-6 hover:shadow-lg transition-all duration-300 group"
-    >
+    <Link href={`/tools/${tool.id}`} className="block bg-[#f8f9fa] rounded-xl p-6 hover:shadow-lg transition-all duration-300 group">
       <div className="flex flex-col items-center text-center">
         <div className="relative w-[72px] h-[72px] mb-4">
           {tool.isNew && (

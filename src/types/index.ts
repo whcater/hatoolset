@@ -2,8 +2,12 @@ export interface Tool {
   id: string;
   name: string;
   description: string;
-  icon: string;
-  path: string;
+  icon?: string;
+  path?: string;
+  features?: string[];
+  requirements?: string[];
+  category?: string;
+  tags?: string[];
   isNew?: boolean;
 }
 

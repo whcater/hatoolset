@@ -6,11 +6,36 @@
     "caseStudies": "Case Studies",
     "about": "About"
   },
+  "home": {
+    "title": "High Availability Tool Set",
+    "subtitle": "Create, Share, Improve 🎨",
+    "description": "Tool navigation and tech stack guide for independent developers"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "forgotPassword": "Forgot Password?",
+    "rememberMe": "Remember Me",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?"
+  },
+  "tools": {
+    "viewDetails": "View Details",
+    "category": "Category",
+    "tags": "Tags",
+    "description": "Description",
+    "features": "Features",
+    "requirements": "Requirements",
+    "installation": "Installation",
+    "usage": "Usage"
+  },
   "search": "Search",
   "language": "Language",
   "userMenu": "User Menu",
   "profile": "Profile",
-  "favorites": "Favorites",
-  "login": "Login",
-  "logout": "Logout"
+  "favorites": "Favorites"
 } 

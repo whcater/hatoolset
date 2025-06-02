@@ -1,27 +1,38 @@
-import { NextPage } from 'next';
+import { categories } from '../data/tools';
+import { ToolCard } from '../components/ToolCard';
+import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Header from '@/components/Header';
+import type { GetStaticProps } from 'next';
 
-const Home: NextPage = () => {
+export default function Home() {
+  const { t } = useTranslation('common');
+  
   return (
-    <div>
-      <Header />
-      <main className="container py-10">
-        <h1 className="text-4xl font-bold mb-6">高可用工具集</h1>
-        <p className="text-lg">
-          为独立开发者提供的工具导航和技术栈指南
-        </p>
-      </main>
+    <div className="max-w-[1320px] mx-auto px-4 py-12">
+      <div className="text-center mb-16">
+        <h1 className="text-[42px] font-bold mb-4">{t('home.title')}</h1>
+        <p className="text-[18px] text-gray-600">{t('home.subtitle')}</p>
+        <p className="text-[16px] text-gray-500 mt-2">{t('home.description')}</p>
+      </div>
+      
+      {categories.map((category) => (
+        <div key={category.id} className="mb-16">
+          <h2 className="text-[28px] font-bold mb-8">{category.name}</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+            {category.tools.map((tool) => (
+              <ToolCard key={tool.id} tool={tool} />
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
-};
-
-export async function getStaticProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ['common'])),
-    },
-  };
 }
 
-export default Home; 
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'zh', ['common'])),
+    },
+  };
+}; 

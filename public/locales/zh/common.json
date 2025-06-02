@@ -6,11 +6,36 @@
     "caseStudies": "案例分析",
     "about": "关于我们"
   },
+  "home": {
+    "title": "高可用工具集",
+    "subtitle": "创建、分享、改进 🎨",
+    "description": "为独立开发者提供的工具导航和技术栈指南"
+  },
+  "auth": {
+    "login": "登录",
+    "register": "注册",
+    "logout": "退出",
+    "email": "邮箱",
+    "password": "密码",
+    "name": "姓名",
+    "forgotPassword": "忘记密码？",
+    "rememberMe": "记住我",
+    "noAccount": "还没有账号？",
+    "hasAccount": "已有账号？"
+  },
+  "tools": {
+    "viewDetails": "查看详情",
+    "category": "分类",
+    "tags": "标签",
+    "description": "描述",
+    "features": "特性",
+    "requirements": "要求",
+    "installation": "安装",
+    "usage": "使用方法"
+  },
   "search": "搜索",
   "language": "语言",
   "userMenu": "用户菜单",
   "profile": "个人资料",
-  "favorites": "收藏",
-  "login": "登录",
-  "logout": "退出"
+  "favorites": "收藏"
 } 
