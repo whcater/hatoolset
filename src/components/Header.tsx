@@ -29,9 +29,8 @@ const Header: React.FC = () => {
   // 导航菜单项
   const navItems = [
     { href: '/', label: t('nav.home') },
-    { href: '/tools', label: t('nav.tools') },
-    { href: '/tech-stacks', label: t('nav.techStacks') },
-    { href: '/case-studies', label: t('nav.caseStudies') },
+    { href: '/search', label: t('nav.search', '搜索') },
+    { href: '/submit', label: t('nav.submit', '提交工具') },
     { href: '/about', label: t('nav.about') },
   ];
   

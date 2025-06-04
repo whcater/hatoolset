@@ -1,15 +1,32 @@
 {
   "nav": {
     "home": "首页",
-    "tools": "工具集",
-    "techStacks": "技术栈",
-    "caseStudies": "案例分析",
+    "search": "搜索",
+    "submit": "提交工具",
     "about": "关于我们"
   },
   "home": {
     "title": "高可用工具集",
     "subtitle": "创建、分享、改进 🎨",
     "description": "为独立开发者提供的工具导航和技术栈指南"
+  },
+  "search": {
+    "title": "搜索工具",
+    "subtitle": "发现适合您的工具",
+    "placeholder": "搜索工具名称、描述或标签...",
+    "filters": "过滤器",
+    "clearFilters": "清除",
+    "category": "分类",
+    "tags": "标签",
+    "allCategories": "所有分类",
+    "results": "搜索结果",
+    "noResults": "未找到相关工具",
+    "noResultsDesc": "尝试调整搜索条件或浏览其他分类",
+    "browseAll": "浏览所有工具"
+  },
+  "submit": {
+    "title": "提交工具",
+    "subtitle": "分享优质工具，让更多人受益"
   },
   "auth": {
     "login": "登录",
@@ -31,11 +48,29 @@
     "features": "特性",
     "requirements": "要求",
     "installation": "安装",
-    "usage": "使用方法"
+    "usage": "使用方法",
+    "notFound": "工具未找到",
+    "backHome": "返回首页",
+    "visitTool": "访问工具",
+    "rateThis": "为此工具评分",
+    "relatedTools": "相关工具",
+    "noRelatedTools": "暂无相关工具"
+  },
+  "common": {
+    "back": "返回",
+    "loading": "加载中...",
+    "error": "出错了",
+    "success": "成功",
+    "cancel": "取消",
+    "confirm": "确认",
+    "save": "保存",
+    "edit": "编辑",
+    "delete": "删除"
   },
   "search": "搜索",
   "language": "语言",
   "userMenu": "用户菜单",
   "profile": "个人资料",
-  "favorites": "收藏"
+  "favorites": "收藏",
+  "login": "登录"
 } 
