@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import Link from 'next/link'
 import { 
@@ -16,7 +16,8 @@ import {
   Crown,
   Zap
 } from 'lucide-react'
-import { Tool } from '@/services/toolService'
+import { Tool, toolService } from '../services/toolService'
+import { userInteractionService } from '../services/userInteractionService'
 
 interface ToolCardProps {
   tool: Tool
@@ -40,21 +41,87 @@ export default function ToolCard({
   const [isFavorited, setIsFavorited] = useState(false)
   const [isImageLoaded, setIsImageLoaded] = useState(false)
 
-  const handleFavorite = (e: React.MouseEvent) => {
+  // Check if tool is favorited on component mount
+  useEffect(() => {
+    const checkFavoriteStatus = async () => {
+      try {
+        const favorited = await userInteractionService.isFavorite(tool.id);
+        setIsFavorited(favorited);
+      } catch (error) {
+        // Fallback to localStorage
+        const favorited = userInteractionService.isFavoriteInStorage(tool.id);
+        setIsFavorited(favorited);
+      }
+    };
+    
+    checkFavoriteStatus();
+  }, [tool.id]);
+
+  const handleFavorite = async (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    setIsFavorited(!isFavorited)
-    onFavorite?.(tool.id)
+    
+    try {
+      if (isFavorited) {
+        await userInteractionService.removeFromFavorites(tool.id);
+        userInteractionService.removeFavoriteFromStorage(tool.id);
+      } else {
+        await userInteractionService.addToFavorites(tool.id);
+        userInteractionService.addFavoriteToStorage(tool.id);
+      }
+      setIsFavorited(!isFavorited);
+      onFavorite?.(tool.id);
+    } catch (error) {
+      console.error('Error updating favorite status:', error);
+      // Update localStorage as fallback
+      if (isFavorited) {
+        userInteractionService.removeFavoriteFromStorage(tool.id);
+      } else {
+        userInteractionService.addFavoriteToStorage(tool.id);
+      }
+      setIsFavorited(!isFavorited);
+      onFavorite?.(tool.id);
+    }
   }
 
-  const handleShare = (e: React.MouseEvent) => {
+  const handleShare = async (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    onShare?.(tool.id)
+    
+    try {
+      // Record share action
+      await toolService.recordShare(tool.id);
+      
+      // Use Web Share API if available
+      if (navigator.share) {
+        await navigator.share({
+          title: tool.name,
+          text: tool.description,
+          url: `${window.location.origin}/tools/${tool.id}`
+        });
+      } else {
+        // Fallback to copying link
+        const url = `${window.location.origin}/tools/${tool.id}`;
+        await navigator.clipboard.writeText(url);
+        // You could show a toast notification here
+        alert('Link copied to clipboard!');
+      }
+      
+      onShare?.(tool.id);
+    } catch (error) {
+      console.error('Error sharing tool:', error);
+    }
   }
 
-  const handleView = () => {
-    onView?.(tool.id)
+  const handleView = async () => {
+    try {
+      // Record view action
+      await userInteractionService.addToRecentlyViewed(tool.id);
+      onView?.(tool.id);
+    } catch (error) {
+      console.error('Error recording view:', error);
+      onView?.(tool.id);
+    }
   }
 
   const getPricingBadge = () => {
@@ -369,4 +436,6 @@ export default function ToolCard({
       </div>
     </div>
   )
-} 
+}
+
+export { ToolCard }; 
