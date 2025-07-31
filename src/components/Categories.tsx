@@ -72,137 +72,16 @@ export default function Categories() {
         const response = await toolService.getCategories()
         if (response.success && Array.isArray(response.data)) {
           setCategories(response.data)
+        } else if (Array.isArray(response)) {
+          // 处理直接返回数组的情况
+          setCategories(response)
         } else {
           setCategories([])
         }
       } catch (err) {
         console.error('Failed to fetch categories:', err)
         setError('Failed to load categories. Please try again later.')
-        
-        // Fallback to mock data if API fails
-        const mockCategories: Category[] = [
-          {
-            id: 1,
-            name: 'Development',
-            description: 'Tools for developers and programmers',
-            icon: '💻',
-            color: 'blue',
-            tool_count: 150,
-            created_at: '2024-01-01T00:00:00Z',
-            updated_at: '2024-01-01T00:00:00Z'
-          },
-          {
-            id: 2,
-            name: 'Design',
-            description: 'Creative tools for designers',
-            icon: '🎨',
-            color: 'purple',
-            tool_count: 120,
-            created_at: '2024-01-01T00:00:00Z',
-            updated_at: '2024-01-01T00:00:00Z'
-          },
-          {
-            id: 3,
-            name: 'Productivity',
-            description: 'Boost your productivity',
-            icon: '⚡',
-            color: 'green',
-            tool_count: 200,
-            created_at: '2024-01-01T00:00:00Z',
-            updated_at: '2024-01-01T00:00:00Z'
-          },
-          {
-            id: 4,
-            name: 'Utilities',
-            description: 'Useful utility tools',
-            icon: '🔧',
-            color: 'gray',
-            tool_count: 180,
-            created_at: '2024-01-01T00:00:00Z',
-            updated_at: '2024-01-01T00:00:00Z'
-          },
-          {
-            id: 5,
-            name: 'AI Tools',
-            description: 'AI-powered tools',
-            icon: '🤖',
-            color: 'orange',
-            tool_count: 80,
-            created_at: '2024-01-01T00:00:00Z',
-            updated_at: '2024-01-01T00:00:00Z'
-          },
-          {
-            id: 6,
-            name: 'Security',
-            description: 'Security and privacy tools',
-            icon: '🛡️',
-            color: 'red',
-            tool_count: 65,
-            created_at: '2024-01-01T00:00:00Z',
-            updated_at: '2024-01-01T00:00:00Z'
-          },
-          {
-            id: 7,
-            name: 'Finance',
-            description: 'Financial tools and calculators',
-            icon: '💰',
-            color: 'emerald',
-            tool_count: 45,
-            created_at: '2024-01-01T00:00:00Z',
-            updated_at: '2024-01-01T00:00:00Z'
-          },
-          {
-            id: 8,
-            name: 'Education',
-            description: 'Learning and educational tools',
-            icon: '🎓',
-            color: 'indigo',
-            tool_count: 90,
-            created_at: '2024-01-01T00:00:00Z',
-            updated_at: '2024-01-01T00:00:00Z'
-          },
-          {
-            id: 9,
-            name: 'Web Tools',
-            description: 'Web development utilities',
-            icon: '🌐',
-            color: 'cyan',
-            tool_count: 75,
-            created_at: '2024-01-01T00:00:00Z',
-            updated_at: '2024-01-01T00:00:00Z'
-          },
-          {
-            id: 10,
-            name: 'Image Tools',
-            description: 'Image processing and editing',
-            icon: '📷',
-            color: 'pink',
-            tool_count: 55,
-            created_at: '2024-01-01T00:00:00Z',
-            updated_at: '2024-01-01T00:00:00Z'
-          },
-          {
-            id: 11,
-            name: 'Text Tools',
-            description: 'Text processing utilities',
-            icon: '📝',
-            color: 'yellow',
-            tool_count: 40,
-            created_at: '2024-01-01T00:00:00Z',
-            updated_at: '2024-01-01T00:00:00Z'
-          },
-          {
-            id: 12,
-            name: 'System Tools',
-            description: 'System administration tools',
-            icon: '🔧',
-            color: 'slate',
-            tool_count: 30,
-            created_at: '2024-01-01T00:00:00Z',
-            updated_at: '2024-01-01T00:00:00Z'
-          }
-        ]
-        setCategories(mockCategories)
+        setCategories([])
       } finally {
         setLoading(false)
       }

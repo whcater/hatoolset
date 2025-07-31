@@ -36,13 +36,13 @@ export const API_ENDPOINTS = {
     create: '/api/tools',
     update: '/api/tools',
     delete: '/api/tools',
-    categories: '/api/tools/categories',
+    categories: '/api/tool-categories',
     tags: '/api/tools/tags',
     search: '/api/tools/search',
     featured: '/api/tools/featured',
     trending: '/api/tools/trending',
     submit: '/api/tools/submit',
-    preview: '/api/tools/preview'
+    preview: '/api/tool-previews'
   },
   admin: {
     dashboard: '/api/admin/dashboard',

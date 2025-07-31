@@ -16,7 +16,7 @@ import {
   Crown,
   Zap
 } from 'lucide-react'
-import { Tool } from '@/services/toolService'
+import { Tool } from '../types/index'
 
 interface ToolCardProps {
   tool: Tool
@@ -24,7 +24,8 @@ interface ToolCardProps {
   onShare?: (toolId: number) => void
   onView?: (toolId: number) => void
   showStats?: boolean
-  variant?: 'default' | 'compact' | 'featured'
+  variant?: 'default' | 'compact' | 'featured' | 'trending'
+  viewMode?: 'grid' | 'list'
 }
 
 export default function ToolCard({ 
@@ -33,7 +34,8 @@ export default function ToolCard({
   onShare, 
   onView,
   showStats = true,
-  variant = 'default'
+  variant = 'default',
+  viewMode = 'grid'
 }: ToolCardProps) {
   const { t } = useTranslation()
   const [isHovered, setIsHovered] = useState(false)
@@ -176,6 +178,128 @@ export default function ToolCard({
           >
             <ExternalLink className="h-4 w-4" />
           </Link>
+        </div>
+      </div>
+    )
+  }
+
+  if (viewMode === 'list') {
+    return (
+      <div className="flex items-start space-x-4 p-6 bg-card rounded-lg border hover:shadow-md transition-shadow">
+        {/* Tool Icon */}
+        <div className="flex-shrink-0">
+          {tool.icon ? (
+            <img 
+              src={tool.icon} 
+              alt={tool.name}
+              className="h-12 w-12 rounded-lg object-cover"
+              onLoad={() => setIsImageLoaded(true)}
+            />
+          ) : (
+            <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+              <span className="text-xl">{getPlatformIcon()}</span>
+            </div>
+          )}
+        </div>
+        
+        {/* Tool Info */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between mb-2">
+            <div>
+              <div className="flex items-center space-x-2 mb-1">
+                <h3 className="font-semibold text-foreground text-lg">{tool.name}</h3>
+                {tool.featured && <Crown className="h-4 w-4 text-yellow-500" />}
+                {tool.trending && <TrendingUp className="h-4 w-4 text-red-500" />}
+                {tool.verified && (
+                  <div className="flex items-center space-x-1">
+                    <div className="h-2 w-2 rounded-full bg-green-500"></div>
+                    <span className="text-xs text-green-600">Verified</span>
+                  </div>
+                )}
+              </div>
+              <p className="text-muted-foreground text-sm mb-2">{tool.description}</p>
+              
+              {/* Tags */}
+              {tool.tags && tool.tags.length > 0 && (
+                <div className="flex flex-wrap gap-1 mb-2">
+                  {tool.tags.slice(0, 4).map((tag, index) => (
+                    <span 
+                      key={index}
+                      className="inline-flex items-center px-2 py-1 rounded-md text-xs bg-muted text-muted-foreground"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                  {tool.tags.length > 4 && (
+                    <span className="inline-flex items-center px-2 py-1 rounded-md text-xs bg-muted text-muted-foreground">
+                      +{tool.tags.length - 4} more
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+            
+            {/* Actions */}
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={handleFavorite}
+                className={`p-2 rounded-md transition-colors ${
+                  isFavorited 
+                    ? 'text-red-500 bg-red-50 hover:bg-red-100' 
+                    : 'text-muted-foreground hover:text-red-500 hover:bg-red-50'
+                }`}
+              >
+                <Heart className={`h-4 w-4 ${isFavorited ? 'fill-current' : ''}`} />
+              </button>
+              <button
+                onClick={handleShare}
+                className="p-2 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+              >
+                <Share2 className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+          
+          {/* Bottom Row */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              {/* Category and Pricing */}
+              <div className="flex items-center space-x-2">
+                <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800">
+                  {tool.category}
+                </span>
+                {getPricingBadge()}
+              </div>
+              
+              {/* Rating */}
+              {renderRating()}
+              
+              {/* Stats */}
+              {showStats && (
+                <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                  <div className="flex items-center space-x-1">
+                    <Eye className="h-4 w-4" />
+                    <span>{tool.views.toLocaleString()}</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <Heart className="h-4 w-4" />
+                    <span>{tool.favorites.toLocaleString()}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+            
+            {/* Visit Button */}
+            <Link
+              href={tool.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+            >
+              <ExternalLink className="h-4 w-4 mr-2" />
+              Visit
+            </Link>
+          </div>
         </div>
       </div>
     )

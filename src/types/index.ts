@@ -15,17 +15,20 @@ export interface User {
 
 // 工具相关类型
 export interface Tool {
-  id: string;
+  id: number;
   name: string;
   description: string;
   url: string;
-  category: string;
+  category_id: number;
+  category_name?: string;
+  category_icon?: string;
+  category_color?: string;
   tags: string[];
-  icon?: string;
-  screenshot?: string;
+  icon_url?: string;
+  screenshot_url?: string;
   pricing: 'free' | 'paid' | 'freemium';
   platform: 'web' | 'desktop' | 'mobile' | 'api';
-  rating: number;
+  rating?: number;
   views: number;
   clicks: number;
   favorites: number;
@@ -34,7 +37,7 @@ export interface Tool {
   featured: boolean;
   trending: boolean;
   verified: boolean;
-  submitter_id: string;
+  submitter_id: number;
   submitter?: User;
   created_at: string;
   updated_at: string;
@@ -42,13 +45,14 @@ export interface Tool {
 
 // 工具分类类型
 export interface Category {
-  id: string;
+  id: number;
   name: string;
   name_en: string;
+  name_zh: string;
   description?: string;
   icon: string;
   color?: string;
-  tools_count: number;
+  tool_count: number;
   created_at: string;
   updated_at: string;
 }

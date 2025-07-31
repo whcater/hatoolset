@@ -22,11 +22,13 @@ export interface Tool {
   clicks: number
   shares: number
   favorites: number
+  status: 'draft' | 'pending' | 'approved' | 'rejected' | 'archived'
   featured: boolean
   trending: boolean
   verified: boolean
+  submitter_id: number
   pricing: 'free' | 'paid' | 'freemium'
-  platform: string
+  platform: 'web' | 'desktop' | 'mobile' | 'api'
   icon_url: string 
   created_at: string
   updated_at: string
@@ -69,7 +71,7 @@ class ToolService {
   async getTools(params?: SearchParams): Promise<ToolsResponse> {
     const queryParams = new URLSearchParams()
     
-    if (params?.q) queryParams.append('q', params.q)
+    if (params?.q) queryParams.append('search', params.q)
     if (params?.category) queryParams.append('category', params.category)
     if (params?.tags?.length) queryParams.append('tags', params.tags.join(','))
     if (params?.page) queryParams.append('page', params.page.toString())
@@ -78,17 +80,89 @@ class ToolService {
     if (params?.featured) queryParams.append('featured', 'true')
 
     const url = `${API_ENDPOINTS.tools.list}${queryParams.toString() ? `?${queryParams.toString()}` : ''}`
-    return apiClient.get<ToolsResponse>(url)
+    const response = await apiClient.get<any>(url)
+    
+    // 处理hai-backend的响应格式
+    if (response.success && response.data) {
+      return {
+        tools: response.data.tools || [],
+        total: response.data.pagination?.total || 0,
+        page: response.data.pagination?.page || 1,
+        limit: response.data.pagination?.limit || 20,
+        totalPages: response.data.pagination?.totalPages || 0
+      }
+    }
+    
+    // 如果直接返回工具数组
+    if (Array.isArray(response)) {
+      return {
+        tools: response,
+        total: response.length,
+        page: 1,
+        limit: response.length,
+        totalPages: 1
+      }
+    }
+    
+    return {
+      tools: [],
+      total: 0,
+      page: 1,
+      limit: 20,
+      totalPages: 0
+    }
   }
 
   // 获取精选工具
   async getFeaturedTools(): Promise<ApiResponse<Tool[]>> {
-    return apiClient.get<ApiResponse<Tool[]>>(API_ENDPOINTS.tools.featured)
+    const response = await apiClient.get<any>(API_ENDPOINTS.tools.featured)
+    
+    // 处理hai-backend的响应格式
+    if (response.success && response.data) {
+      return {
+        success: true,
+        data: Array.isArray(response.data.tools) ? response.data.tools : response.data
+      }
+    }
+    
+    // 如果直接返回工具数组
+    if (Array.isArray(response)) {
+      return {
+        success: true,
+        data: response
+      }
+    }
+    
+    return {
+      success: false,
+      data: []
+    }
   }
 
   // 获取热门工具
   async getTrendingTools(): Promise<ApiResponse<Tool[]>> {
-    return apiClient.get<ApiResponse<Tool[]>>(API_ENDPOINTS.tools.trending)
+    const response = await apiClient.get<any>(API_ENDPOINTS.tools.trending)
+    
+    // 处理hai-backend的响应格式
+    if (response.success && response.data) {
+      return {
+        success: true,
+        data: Array.isArray(response.data.tools) ? response.data.tools : response.data
+      }
+    }
+    
+    // 如果直接返回工具数组
+    if (Array.isArray(response)) {
+      return {
+        success: true,
+        data: response
+      }
+    }
+    
+    return {
+      success: false,
+      data: []
+    }
   }
 
   // 搜索工具
@@ -139,21 +213,27 @@ class ToolService {
 
   // 获取分类列表
   async getCategories(): Promise<ApiResponse<Category[]>> {
-    try {
-      return await apiClient.get<ApiResponse<Category[]>>(API_ENDPOINTS.tools.categories)
-    } catch (error) {
-      console.warn('Categories API not available, using mock data')
-      // 返回模拟数据
+    const response = await apiClient.get<any>(API_ENDPOINTS.tools.categories)
+    
+    // 处理hai-backend的响应格式
+    if (response.success && response.data) {
       return {
         success: true,
-        data: [
-          { id: 1, name: 'Development', description: 'Development tools and utilities', icon: '💻', color: 'blue', tool_count: 45, created_at: '2024-01-01T00:00:00Z', updated_at: '2024-01-01T00:00:00Z' },
-          { id: 2, name: 'Design', description: 'Design and creative tools', icon: '🎨', color: 'purple', tool_count: 32, created_at: '2024-01-01T00:00:00Z', updated_at: '2024-01-01T00:00:00Z' },
-          { id: 3, name: 'Productivity', description: 'Productivity and organization tools', icon: '⚡', color: 'green', tool_count: 28, created_at: '2024-01-01T00:00:00Z', updated_at: '2024-01-01T00:00:00Z' },
-          { id: 4, name: 'AI Tools', description: 'Artificial intelligence tools', icon: '🤖', color: 'indigo', tool_count: 15, created_at: '2024-01-01T00:00:00Z', updated_at: '2024-01-01T00:00:00Z' },
-          { id: 5, name: 'Utilities', description: 'General utilities and helpers', icon: '🔧', color: 'gray', tool_count: 20, created_at: '2024-01-01T00:00:00Z', updated_at: '2024-01-01T00:00:00Z' },
-        ]
+        data: Array.isArray(response.data) ? response.data : []
       }
+    }
+    
+    // 如果直接返回分类数组
+    if (Array.isArray(response)) {
+      return {
+        success: true,
+        data: response
+      }
+    }
+    
+    return {
+      success: false,
+      data: []
     }
   }
 
@@ -164,21 +244,27 @@ class ToolService {
 
   // 获取标签列表
   async getTags(): Promise<ApiResponse<string[]>> {
-    try {
-      return await apiClient.get<ApiResponse<string[]>>(API_ENDPOINTS.tools.tags)
-    } catch (error) {
-      console.warn('Tags API not available, using mock data')
-      // 返回模拟数据
+    const response = await apiClient.get<any>(API_ENDPOINTS.tools.tags)
+    
+    // 处理hai-backend的响应格式
+    if (response.success && response.data) {
       return {
         success: true,
-        data: [
-          'free', 'paid', 'freemium', 'open-source', 'web-based', 'desktop', 'mobile',
-          'api', 'integration', 'collaboration', 'automation', 'cloud', 'real-time',
-          'dashboard', 'analytics', 'reporting', 'monitoring', 'development', 'design',
-          'productivity', 'ai', 'machine-learning', 'coding', 'ui-ux', 'frontend',
-          'backend', 'database', 'security', 'testing', 'deployment'
-        ]
+        data: Array.isArray(response.data) ? response.data : []
       }
+    }
+    
+    // 如果直接返回标签数组
+    if (Array.isArray(response)) {
+      return {
+        success: true,
+        data: response
+      }
+    }
+    
+    return {
+      success: false,
+      data: []
     }
   }
 
@@ -190,6 +276,52 @@ class ToolService {
     favicon: string
   }> {
     return apiClient.post(API_ENDPOINTS.tools.preview, { url })
+  }
+
+  // 获取用户收藏的工具
+  async getUserFavorites(): Promise<ApiResponse<Tool[]>> {
+    const response = await apiClient.get<any>('/api/tools/favorites')
+    
+    // 处理hai-backend的响应格式
+    if (response.success && response.data) {
+      return {
+        success: true,
+        data: Array.isArray(response.data.tools) ? response.data.tools : response.data
+      }
+    }
+    
+    // 如果直接返回工具数组
+    if (Array.isArray(response)) {
+      return {
+        success: true,
+        data: response
+      }
+    }
+    
+    return {
+      success: false,
+      data: []
+    }
+  }
+
+  // 添加到收藏
+  async addToFavorites(toolId: number): Promise<void> {
+    return apiClient.post(`/api/tools/${toolId}/favorites`)
+  }
+
+  // 从收藏中移除
+  async removeFromFavorites(toolId: number): Promise<void> {
+    return apiClient.delete(`/api/tools/${toolId}/favorites`)
+  }
+
+  // 检查是否已收藏
+  async isFavorited(toolId: number): Promise<boolean> {
+    try {
+      const response = await apiClient.get(`/api/tools/${toolId}/favorites/status`)
+      return response.favorited || false
+    } catch (error) {
+      return false
+    }
   }
 }
 
