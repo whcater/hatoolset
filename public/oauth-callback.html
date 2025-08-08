@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google OAuth Callback</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <script>
+        // 从URL中提取授权码或错误信息
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const error = urlParams.get('error');
+        const state = urlParams.get('state');
+
+        if (error) {
+            // 发送错误信息给父窗口
+            window.opener.postMessage({
+                type: 'GOOGLE_AUTH_ERROR',
+                error: error
+            }, window.location.origin);
+        } else if (code) {
+            // 发送授权码给父窗口
+            window.opener.postMessage({
+                type: 'GOOGLE_AUTH_CODE',
+                code: code,
+                state: state
+            }, window.location.origin);
+        } else {
+            // 未知错误
+            window.opener.postMessage({
+                type: 'GOOGLE_AUTH_ERROR',
+                error: 'Unknown error occurred'
+            }, window.location.origin);
+        }
+
+        // 关闭弹出窗口
+        window.close();
+    </script>
+</body>
+</html>

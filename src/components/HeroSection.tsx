@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Search, Sparkles, ArrowRight } from 'lucide-react'
+import { Search, Sparkles, ArrowRight, Send } from 'lucide-react'
 import Link from 'next/link'
 
 export default function HeroSection() {
@@ -49,7 +49,7 @@ export default function HeroSection() {
           </p>
 
           {/* Search Form */}
-          <form onSubmit={handleSearch} className="max-w-2xl mx-auto mb-12">
+          <form onSubmit={handleSearch} className="max-w-2xl mx-auto mb-8">
             <div className="relative">
               <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 h-6 w-6 text-muted-foreground" />
               <input
@@ -68,6 +68,7 @@ export default function HeroSection() {
               </button>
             </div>
           </form>
+ 
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -83,6 +84,13 @@ export default function HeroSection() {
               className="inline-flex items-center justify-center px-8 py-4 bg-secondary text-secondary-foreground font-medium rounded-xl hover:bg-secondary/80 transition-colors border border-border"
             >
               {t('nav.categories')}
+            </Link> 
+            <Link
+              href="/submit-tool"
+              className="inline-flex items-center px-6 py-3 bg-secondary text-secondary-foreground font-medium rounded-xl hover:bg-secondary/80 transition-colors border border-border shadow-sm"
+            >
+              <Send className="h-4 w-4 mr-2" />
+              {t('hero.submitTool', 'Submit Tool')}
             </Link>
           </div>
 

@@ -4,8 +4,10 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from 'next-themes'
-import { Search, Moon, Sun, Menu, X, User, Heart, TrendingUp, Grid3X3 } from 'lucide-react'
+import { Moon, Sun, Menu, X, Heart, TrendingUp, Grid3X3, Home } from 'lucide-react'
 import LanguageSwitcher from './LanguageSwitcher'
+import UserMenu from './UserMenu'
+import SearchDropdown from './SearchDropdown'
 import { APP_CONFIG } from '../config/constants'
 
 export default function Header() {
@@ -14,6 +16,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const navigation = [
+    { name: t('nav.home'), href: '/', icon: Home },
     { name: t('nav.tools'), href: '/tools', icon: Grid3X3 },
     { name: t('nav.categories'), href: '/categories', icon: Grid3X3 },
     { name: t('nav.trending'), href: '/trending', icon: TrendingUp },
@@ -54,15 +57,11 @@ export default function Header() {
           {/* Right Side Actions */}
           <div className="flex items-center space-x-4">
             {/* Search (Desktop) */}
-            <div className="hidden lg:flex items-center space-x-2">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <input
-                  type="text"
-                  placeholder={t('hero.searchPlaceholder')}
-                  className="w-64 pl-10 pr-4 py-2 text-sm bg-muted rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                />
-              </div>
+            <div className="hidden lg:block">
+              <SearchDropdown 
+                placeholder={t('hero.searchPlaceholder')}
+                className="w-64"
+              />
             </div>
 
             {/* Theme Toggle */}
@@ -79,12 +78,7 @@ export default function Header() {
             <LanguageSwitcher />
 
             {/* User Menu */}
-            <Link
-              href="/login"
-              className="h-9 w-9 rounded-lg border border-border bg-background hover:bg-accent transition-colors flex items-center justify-center"
-            >
-              <User className="h-4 w-4" />
-            </Link>
+            <UserMenu />
 
             {/* Mobile Menu Toggle */}
             <button
@@ -101,14 +95,10 @@ export default function Header() {
           <div className="md:hidden py-4 border-t">
             {/* Mobile Search */}
             <div className="mb-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <input
-                  type="text"
-                  placeholder={t('hero.searchPlaceholder')}
-                  className="w-full pl-10 pr-4 py-2 text-sm bg-muted rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                />
-              </div>
+              <SearchDropdown 
+                placeholder={t('hero.searchPlaceholder')}
+                className="w-full"
+              />
             </div>
 
             {/* Mobile Menu Items */}

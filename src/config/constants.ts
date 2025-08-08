@@ -3,7 +3,6 @@ export const APP_CONFIG = {
   name: 'HAI ToolSet',
   description: 'High availability tool set navigation site',
   url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3002',
-  backendUrl: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8787',
   version: '1.0.0',
   author: 'HAI Team',
   email: 'support@hai-toolset.com',

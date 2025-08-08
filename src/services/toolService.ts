@@ -213,7 +213,7 @@ class ToolService {
 
   // 获取分类列表
   async getCategories(): Promise<ApiResponse<Category[]>> {
-    const response = await apiClient.get<any>(API_ENDPOINTS.tools.categories)
+    const response = await apiClient.get<any>(`${API_ENDPOINTS.tools.categories}?include_stats=true`)
     
     // 处理hai-backend的响应格式
     if (response.success && response.data) {
@@ -280,45 +280,99 @@ class ToolService {
 
   // 获取用户收藏的工具
   async getUserFavorites(): Promise<ApiResponse<Tool[]>> {
-    const response = await apiClient.get<any>('/api/tools/favorites')
-    
-    // 处理hai-backend的响应格式
-    if (response.success && response.data) {
-      return {
-        success: true,
-        data: Array.isArray(response.data.tools) ? response.data.tools : response.data
+    try {
+      const response = await apiClient.get<any>('/api/tools/favorites')
+      console.log('Raw favorites response:', response)
+      
+      // 处理hai-backend的响应格式
+      if (response.success && response.data) {
+        // 新的响应格式：{ data: { favorites: [...] } }
+        if (response.data.data?.favorites && Array.isArray(response.data.data.favorites)) {
+          const tools = response.data.data.favorites.map((fav: any) => {
+            // 处理嵌套结构：favorites包含tool对象
+            if (fav.tool) {
+              return {
+                ...fav.tool,
+                id: fav.tool.id || fav.tool_id,
+                user_id: fav.user_id,
+                created_at: fav.created_at
+              };
+            } else {
+              return fav;
+            }
+          });
+          return {
+            success: true,
+            data: tools
+          };
+        }
+        
+        // 标准格式：{ favorites: [...] }
+        if (response.data.favorites && Array.isArray(response.data.favorites)) {
+          const tools = response.data.favorites.map((fav: any) => {
+            if (fav.tool) {
+              return {
+                ...fav.tool,
+                id: fav.tool.id || fav.tool_id,
+                user_id: fav.user_id,
+                created_at: fav.created_at
+              };
+            } else {
+              return fav;
+            }
+          });
+          return {
+            success: true,
+            data: tools
+          };
+        }
+        
+        // 直接返回工具数组
+        if (Array.isArray(response.data)) {
+          return {
+            success: true,
+            data: response.data
+          };
+        }
+        
+        // 其他格式
+        if (Array.isArray(response)) {
+          return {
+            success: true,
+            data: response
+          };
+        }
       }
-    }
-    
-    // 如果直接返回工具数组
-    if (Array.isArray(response)) {
+      
+      console.warn('Unexpected favorites response format:', response)
       return {
-        success: true,
-        data: response
+        success: false,
+        data: []
       }
-    }
-    
-    return {
-      success: false,
-      data: []
+    } catch (error) {
+      console.error('Error fetching favorites:', error)
+      return {
+        success: false,
+        data: []
+      }
     }
   }
 
   // 添加到收藏
   async addToFavorites(toolId: number): Promise<void> {
-    return apiClient.post(`/api/tools/${toolId}/favorites`)
+    return apiClient.post(`/api/tools/${toolId}/favorite`)
   }
 
   // 从收藏中移除
   async removeFromFavorites(toolId: number): Promise<void> {
-    return apiClient.delete(`/api/tools/${toolId}/favorites`)
+    return apiClient.delete(`/api/tools/${toolId}/favorite`)
   }
 
   // 检查是否已收藏
   async isFavorited(toolId: number): Promise<boolean> {
     try {
-      const response = await apiClient.get(`/api/tools/${toolId}/favorites/status`)
-      return response.favorited || false
+      const response = await apiClient.get(`/api/tools/${toolId}/favorite/status`) as any
+      return response.data?.is_favorite || false
     } catch (error) {
       return false
     }

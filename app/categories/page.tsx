@@ -43,7 +43,7 @@ export default function CategoriesPage() {
 
   // 获取前4个分类用于统计显示
   const topCategories = categories.slice(0, 4)
-  const iconMap = {
+  const iconMap: Record<string, typeof TrendingUp> = {
     'Development': TrendingUp,
     'Design': Grid3X3, 
     'Productivity': Star,
@@ -54,7 +54,7 @@ export default function CategoriesPage() {
     'Communication': Users
   }
   
-  const colorMap = {
+  const colorMap: Record<string, string> = {
     'Development': 'from-blue-500 to-blue-600',
     'Design': 'from-green-500 to-green-600', 
     'Productivity': 'from-purple-500 to-purple-600',
@@ -69,76 +69,30 @@ export default function CategoriesPage() {
     <Layout>
       <div className="min-h-screen bg-background">
         {/* Header Section */}
-        <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-950/20 dark:to-blue-950/20 py-16">
+        {/* <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-950/20 dark:to-blue-950/20 py-16">
           <div className="container mx-auto px-4">
             <div className="text-center mb-8">
               <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-                {t('categories.title', 'Tool Categories')}
+                {t('categories.exploreTitle', 'Tool Categories')}
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                {t('categories.subtitle', 'Explore our tools organized by category to quickly find what you need')}
+                {t('categories.exploreDesc', 'Explore our tools organized by category to quickly find what you need')}
               </p>
             </div>
           </div>
-        </div>
-
-        {/* Category Stats */}
-        <section className="py-12">
-          <div className="container mx-auto px-4">
-            {loading ? (
-              <div className="flex items-center justify-center py-20">
-                <LoadingSpinner />
-              </div>
-            ) : error ? (
-              <div className="text-center py-20">
-                <div className="text-red-500 mb-4">{error}</div>
-                <button
-                  onClick={() => window.location.reload()}
-                  className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
-                >
-                  Retry
-                </button>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-                {topCategories.map((category) => {
-                  const Icon = iconMap[category.name] || TrendingUp
-                  const colorClass = colorMap[category.name] || 'from-gray-500 to-gray-600'
-                  return (
-                    <div
-                      key={category.id}
-                      className="bg-background/80 backdrop-blur rounded-xl border border-border p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-                    >
-                      <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${colorClass} flex items-center justify-center mb-4`}>
-                        {category.icon ? (
-                          <span className="text-2xl">{category.icon}</span>
-                        ) : (
-                          <Icon className="h-6 w-6 text-white" />
-                        )}
-                      </div>
-                      <h3 className="text-lg font-semibold mb-2">{category.name}</h3>
-                      <p className="text-muted-foreground">
-                        {t('categories.toolCount', `${category.tool_count} tools available`)}
-                      </p>
-                    </div>
-                  )
-                })}
-              </div>
-            )}
-          </div>
-        </section>
-
+        </div> */}
+  
         {/* Main Categories Section */}
         <section className="py-16">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
+            {/* <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
                 {t('categories.exploreTitle', 'Explore Categories')}
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 {t('categories.exploreDesc', 'Click on any category to discover amazing tools tailored to your needs')}
               </p>
-            </div>
+            </div> */}
             <Categories />
           </div>
         </section>

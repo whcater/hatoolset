@@ -6,7 +6,7 @@ class ApiClient {
 
   constructor() {
     this.client = axios.create({
-      baseURL: APP_CONFIG.backendUrl,
+      baseURL: '/', // 使用相对路径，让 Next.js API 路由处理
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json',
@@ -46,6 +46,18 @@ class ApiClient {
 
   private getToken(): string | null {
     if (typeof window !== 'undefined') {
+      // 首先尝试从auth_tokens获取（AuthContext使用的格式）
+      const authTokens = localStorage.getItem('auth_tokens')
+      if (authTokens) {
+        try {
+          const tokens = JSON.parse(authTokens)
+          return tokens.access_token
+        } catch (error) {
+          console.error('Failed to parse auth_tokens:', error)
+        }
+      }
+      
+      // 回退到toolset_token（向后兼容）
       return localStorage.getItem('toolset_token')
     }
     return null
@@ -55,6 +67,8 @@ class ApiClient {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('toolset_token')
       localStorage.removeItem('toolset_user')
+      localStorage.removeItem('auth_tokens')
+      localStorage.removeItem('auth_user')
     }
   }
 

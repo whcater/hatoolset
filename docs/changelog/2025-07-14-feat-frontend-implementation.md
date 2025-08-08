@@ -220,8 +220,7 @@ translation: {
 ## 注意事项
 
 ### 🚨 开发注意
-1. **API调用**: 确保后端服务正常运行
-2. **环境变量**: 正确配置NEXT_PUBLIC_BACKEND_URL
+1. **API调用**: 确保后端服务正常运行 
 3. **类型安全**: 保持TypeScript严格模式
 4. **样式一致性**: 遵循TailwindCSS约定
 

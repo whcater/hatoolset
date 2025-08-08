@@ -91,7 +91,8 @@ export default function Categories() {
   }, [])
 
   const handleCategoryClick = (category: Category) => {
-    router.push(`/categories/${category.id}`)
+    // Use direct window navigation to ensure hash parameter is properly handled
+    window.location.href = `/tools#category=${category.id.toString()}`
   }
 
   const getIcon = (categoryName: string) => {
