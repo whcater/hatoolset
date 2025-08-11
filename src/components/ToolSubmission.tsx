@@ -602,7 +602,7 @@ export function ToolSubmission() {
                   Tool Submitted Successfully!
                 </h2>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Thank you for submitting a tool. Our team will review it and make it available to the community soon.
+                  Thank you for submitting a tool. Your submission has been received and will be processed accordingly.
                 </p>
               </div>
 
