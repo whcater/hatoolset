@@ -40,11 +40,17 @@ const GoogleLogin: React.FC<GoogleLoginProps> = ({
       authUrl.searchParams.set('prompt', 'consent')
       authUrl.searchParams.set('state', Math.random().toString(36).substring(7))
 
+      // 计算屏幕居中位置
+      const width = 500
+      const height = 600
+      const left = Math.round((window.screen.width - width) / 2)
+      const top = Math.round((window.screen.height - height) / 2)
+
       // 打开弹出窗口
       const popup = window.open(
         authUrl.toString(),
         'google-login',
-        'width=500,height=600,scrollbars=yes,resizable=yes'
+        `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,resizable=yes`
       )
 
       if (!popup) {
