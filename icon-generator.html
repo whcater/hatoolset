@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hai ToolSet - 图标生成器</title>
+  <style>
+    body {
+      font-family: 'Microsoft YaHei', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    .container {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .icon-preview {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+      justify-content: center;
+    }
+
+    .icon-item {
+      text-align: center;
+      border: 1px solid #e5e7eb;
+      padding: 20px;
+      border-radius: 12px;
+      background: #f9fafb;
+      transition: transform 0.2s;
+    }
+
+    .icon-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .icon-item canvas {
+      border: 1px solid #d1d5db;
+      margin-bottom: 12px;
+      border-radius: 8px;
+    }
+
+    button {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 5px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .instructions {
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+      border-left: 4px solid #3b82f6;
+    }
+
+    h1 {
+      color: #1f2937;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #6b7280;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>🛠️ Hai ToolSet 图标生成器</h1>
+    <p class="subtitle">为高可用工具集生成专业设计图标</p>
+
+    <div class="instructions">
+      <h3>📋 使用说明：</h3>
+      <ol>
+        <li>点击"生成图标"按钮</li>
+        <li>右键点击每个图标，选择"将图像另存为"</li>
+        <li>将文件保存到 <code>public/</code> 目录，命名为对应的尺寸（如 favicon-16x16.png）</li>
+        <li>更新项目中的图标引用</li>
+      </ol>
+    </div>
+
+    <div style="text-align: center;">
+      <button onclick="generateIcons()">🚀 生成图标</button>
+      <button onclick="downloadAll()">📦 下载所有图标</button>
+    </div>
+
+    <div class="icon-preview" id="iconPreview"></div>
+  </div>
+
+  <script>
+    const sizes = [16, 32, 48, 128, 192, 512];
+
+    function generateIcons() {
+      const preview = document.getElementById('iconPreview');
+      preview.innerHTML = '';
+
+      sizes.forEach(size => {
+        const iconItem = document.createElement('div');
+        iconItem.className = 'icon-item';
+
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+
+        const ctx = canvas.getContext('2d');
+
+        // 绘制渐变背景
+        const gradient = ctx.createLinearGradient(0, 0, size, size);
+        gradient.addColorStop(0, '#3b82f6');
+        gradient.addColorStop(0.5, '#1d4ed8');
+        gradient.addColorStop(1, '#1e40af');
+
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.roundRect(0, 0, size, size, size * 0.15);
+        ctx.fill();
+
+        // 绘制工具图标 - 扳手
+        const toolSize = size * 0.35;
+        const centerX = size * 0.3;
+        const centerY = size * 0.35;
+
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = Math.max(2, size / 32);
+        ctx.lineCap = 'round';
+
+        // 扳手主体
+        ctx.beginPath();
+        ctx.moveTo(centerX - toolSize * 0.3, centerY - toolSize * 0.2);
+        ctx.lineTo(centerX + toolSize * 0.3, centerY + toolSize * 0.2);
+        ctx.moveTo(centerX + toolSize * 0.15, centerY - toolSize * 0.1);
+        ctx.lineTo(centerX + toolSize * 0.35, centerY - toolSize * 0.3);
+        ctx.stroke();
+
+        // 绘制工具图标 - 螺丝刀
+        const screwX = size * 0.65;
+        const screwY = size * 0.35;
+
+        ctx.beginPath();
+        ctx.moveTo(screwX - toolSize * 0.25, screwY - toolSize * 0.25);
+        ctx.lineTo(screwX + toolSize * 0.25, screwY + toolSize * 0.25);
+        ctx.moveTo(screwX - toolSize * 0.15, screwY - toolSize * 0.35);
+        ctx.lineTo(screwX - toolSize * 0.15, screwY - toolSize * 0.15);
+        ctx.stroke();
+
+        // 绘制齿轮
+        const gearRadius = size * 0.12;
+        const gearX = size * 0.5;
+        const gearY = size * 0.75;
+
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.beginPath();
+        ctx.arc(gearX, gearY, gearRadius, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 齿轮齿
+        ctx.strokeStyle = '#3b82f6';
+        ctx.lineWidth = Math.max(1, size / 64);
+        for (let i = 0; i < 8; i++) {
+          const angle = (i * Math.PI * 2) / 8;
+          const x1 = gearX + Math.cos(angle) * gearRadius * 0.8;
+          const y1 = gearY + Math.sin(angle) * gearRadius * 0.8;
+          const x2 = gearX + Math.cos(angle) * gearRadius * 1.2;
+          const y2 = gearY + Math.sin(angle) * gearRadius * 1.2;
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
+        }
+
+        // 齿轮中心
+        ctx.fillStyle = '#3b82f6';
+        ctx.beginPath();
+        ctx.arc(gearX, gearY, gearRadius * 0.3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 添加高光效果
+        const highlight = ctx.createLinearGradient(0, 0, size * 0.5, size * 0.5);
+        highlight.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
+        highlight.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        ctx.fillStyle = highlight;
+        ctx.beginPath();
+        ctx.roundRect(0, 0, size, size, size * 0.15);
+        ctx.fill();
+
+        iconItem.appendChild(canvas);
+
+        const label = document.createElement('div');
+        label.textContent = `${size}x${size}`;
+        label.style.fontWeight = '600';
+        label.style.color = '#374151';
+        iconItem.appendChild(label);
+
+        const downloadBtn = document.createElement('button');
+        downloadBtn.textContent = '下载';
+        downloadBtn.onclick = () => downloadIcon(canvas, size);
+        iconItem.appendChild(downloadBtn);
+
+        preview.appendChild(iconItem);
+      });
+    }
+
+    function downloadIcon(canvas, size) {
+      const link = document.createElement('a');
+      if (size === 16) {
+        link.download = `favicon-16x16.png`;
+      } else if (size === 32) {
+        link.download = `favicon-32x32.png`;
+      } else if (size === 192) {
+        link.download = `android-chrome-192x192.png`;
+      } else if (size === 512) {
+        link.download = `android-chrome-512x512.png`;
+      } else {
+        link.download = `icon-${size}x${size}.png`;
+      }
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+
+    function downloadAll() {
+      const canvases = document.querySelectorAll('canvas');
+      canvases.forEach((canvas, index) => {
+        setTimeout(() => {
+          downloadIcon(canvas, sizes[index]);
+        }, index * 500);
+      });
+    }
+
+    // CanvasRenderingContext2D.roundRect polyfill
+    if (!CanvasRenderingContext2D.prototype.roundRect) {
+      CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, radius) {
+        this.beginPath();
+        this.moveTo(x + radius, y);
+        this.lineTo(x + width - radius, y);
+        this.quadraticCurveTo(x + width, y, x + width, y + radius);
+        this.lineTo(x + width, y + height - radius);
+        this.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        this.lineTo(x + radius, y + height);
+        this.quadraticCurveTo(x, y + height, x, y + height - radius);
+        this.lineTo(x, y + radius);
+        this.quadraticCurveTo(x, y, x + radius, y);
+        this.closePath();
+      };
+    }
+
+    // 页面加载时自动生成图标
+    window.onload = generateIcons;
+  </script>
+</body>
+
+</html>

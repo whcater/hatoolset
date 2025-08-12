@@ -29,9 +29,11 @@ export default function Header() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">H</span>
-            </div>
+            <img 
+              src="/favicon-32x32.png" 
+              alt="HAI ToolSet" 
+              className="h-8 w-8 rounded-lg"
+            />
             <span className="hidden font-bold sm:inline-block text-lg">
               {APP_CONFIG.name}
             </span>

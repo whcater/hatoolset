@@ -74,7 +74,7 @@ export default function MySubmissionsPage() {
         params.append('status', status)
       }
 
-      const response = await authenticatedFetch(`/api/tools/my-submissions?${params}`)
+      const response = await authenticatedFetch(`/api/tools/submissions?${params}`)
       const result = await response.json()
 
       if (!result.success) {

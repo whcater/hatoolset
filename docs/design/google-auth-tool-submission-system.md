@@ -35,7 +35,7 @@
 
 ### 工具申请API
 - `POST /api/tools/submit` - 申请收录工具
-- `GET /api/tools/my-submissions` - 用户的申请记录
+- `GET /api/tools/submissions` - 用户的申请记录
 - `PUT /api/tools/submissions/:id` - 修改申请
 
 ### 管理员审核API

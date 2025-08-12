@@ -166,7 +166,7 @@ export const submitTool = async (req, res) => {
 
 #### 获取用户申请记录
 ```javascript
-// GET /api/tools/my-submissions
+// GET /api/tools/submissions
 export const getUserSubmissions = async (req, res) => {
   // 支持分页、状态筛选
   // 返回申请列表和统计信息

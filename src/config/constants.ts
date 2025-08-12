@@ -1,6 +1,6 @@
 // 应用配置
 export const APP_CONFIG = {
-  name: 'HAI ToolSet',
+  name: 'Hai ToolSet',
   description: 'High availability tool set navigation site',
   url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3002',
   version: '1.0.0',
@@ -231,8 +231,8 @@ export const SOCIAL_SHARE_CONFIG = {
 
 // SEO配置
 export const SEO_CONFIG = {
-  defaultTitle: 'HAI ToolSet - High Availability Tool Set',
-  titleTemplate: '%s | HAI ToolSet',
+  defaultTitle: 'Hai ToolSet - High Availability Tool Set',
+  titleTemplate: '%s | Hai ToolSet',
   defaultDescription: 'Discover and share high-quality tools for developers, designers, and creators',
   keywords: ['tools', 'productivity', 'development', 'design', 'utilities', 'resources'],
   author: 'HAI Team',
@@ -240,7 +240,7 @@ export const SEO_CONFIG = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    siteName: 'HAI ToolSet'
+    siteName: 'Hai ToolSet'
   },
   twitter: {
     handle: '@hai_toolset',
