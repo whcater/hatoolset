@@ -284,18 +284,39 @@ class ToolService {
       const response = await apiClient.get<any>('/api/tools/favorites')
       console.log('Raw favorites response:', response)
       
-      // 处理hai-backend的响应格式
+      // 处理真实API返回的结构：{ favorites: [...], pagination: {...} }
+      if (response.favorites && Array.isArray(response.favorites)) {
+        const tools = response.favorites.map((fav: any) => {
+          // 处理嵌套结构：favorites包含tool对象
+          if (fav.tool) {
+            return {
+              ...fav.tool,
+              id: fav.tool.id,
+              // 保留收藏相关信息
+              favorite_id: fav.id,
+              favorite_created_at: fav.created_at
+            };
+          } else {
+            return fav;
+          }
+        });
+        return {
+          success: true,
+          data: tools
+        };
+      }
+      
+      // 兼容旧格式
       if (response.success && response.data) {
         // 新的响应格式：{ data: { favorites: [...] } }
         if (response.data.data?.favorites && Array.isArray(response.data.data.favorites)) {
           const tools = response.data.data.favorites.map((fav: any) => {
-            // 处理嵌套结构：favorites包含tool对象
             if (fav.tool) {
               return {
                 ...fav.tool,
-                id: fav.tool.id || fav.tool_id,
-                user_id: fav.user_id,
-                created_at: fav.created_at
+                id: fav.tool.id,
+                favorite_id: fav.id,
+                favorite_created_at: fav.created_at
               };
             } else {
               return fav;
@@ -313,9 +334,9 @@ class ToolService {
             if (fav.tool) {
               return {
                 ...fav.tool,
-                id: fav.tool.id || fav.tool_id,
-                user_id: fav.user_id,
-                created_at: fav.created_at
+                id: fav.tool.id,
+                favorite_id: fav.id,
+                favorite_created_at: fav.created_at
               };
             } else {
               return fav;
@@ -334,14 +355,14 @@ class ToolService {
             data: response.data
           };
         }
-        
-        // 其他格式
-        if (Array.isArray(response)) {
-          return {
-            success: true,
-            data: response
-          };
-        }
+      }
+      
+      // 其他格式
+      if (Array.isArray(response)) {
+        return {
+          success: true,
+          data: response
+        };
       }
       
       console.warn('Unexpected favorites response format:', response)

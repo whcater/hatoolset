@@ -56,7 +56,7 @@ class ApiClient {
           console.error('Failed to parse auth_tokens:', error)
         }
       }
-      
+
       // 回退到toolset_token（向后兼容）
       return localStorage.getItem('toolset_token')
     }
@@ -75,7 +75,7 @@ class ApiClient {
   // GET 请求
   async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
     const response = await this.client.get<T>(url, config)
-    return response.data
+    return response.data;
   }
 
   // POST 请求

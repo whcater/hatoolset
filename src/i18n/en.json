@@ -4,6 +4,9 @@
     "submit": "Submit",
     "cancel": "Cancel",
     "confirm": "Confirm",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",
@@ -107,5 +110,127 @@
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
     "copyright": "© 2025 HAI ToolSet. All rights reserved."
+  },
+  "profile": {
+    "notLoggedIn": "Please log in to view your profile",
+    "loginRequired": "You need to be logged in to access this page",
+    "tabs": {
+      "favorites": "Favorites",
+      "comments": "Comments",
+      "activity": "Activity",
+      "settings": "Settings"
+    },
+    "sections": {
+      "information": "Profile Information"
+    },
+    "form": {
+      "fullName": "Full Name",
+      "username": "Username",
+      "bio": "Bio",
+      "bioPlaceholder": "Tell us about yourself...",
+      "website": "Website",
+      "company": "Company",
+      "companyPlaceholder": "Your company",
+      "position": "Position",
+      "positionPlaceholder": "Your job title",
+      "joined": "Member Since",
+      "noBio": "No bio provided",
+      "noWebsite": "No website provided",
+      "noCompany": "No company provided",
+      "noPosition": "No position provided"
+    },
+    "actions": {
+      "edit": "Edit Profile"
+    },
+    "success": {
+      "updated": "Profile updated successfully",
+      "avatarUploaded": "Avatar updated successfully",
+      "favoriteRemoved": "Removed from favorites",
+      "settingsUpdated": "Settings updated"
+    },
+    "error": {
+      "loadFailed": "Failed to load profile data",
+      "updateFailed": "Failed to update profile",
+      "avatarFailed": "Failed to upload avatar",
+      "invalidFileType": "Please select a valid image file",
+      "fileTooLarge": "File size must be less than 5MB",
+      "commentsFailed": "Failed to load comments",
+      "removeFavoriteFailed": "Failed to remove from favorites",
+      "settingsFailed": "Failed to update settings",
+      "deleteAccountFailed": "Failed to delete account"
+    },
+    "favorites": {
+      "title": "My Favorites",
+      "viewAll": "View All",
+      "remove": "Remove from favorites",
+      "empty": {
+        "title": "No favorites yet",
+        "description": "Start exploring tools and add them to your favorites to see them here.",
+        "explore": "Explore Tools"
+      }
+    },
+    "comments": {
+      "title": "My Comments",
+      "viewAll": "View All",
+      "viewTool": "View Tool",
+      "empty": {
+        "title": "No comments yet",
+        "description": "Share your thoughts on tools to help the community and see your comments here.",
+        "explore": "Explore Tools"
+      }
+    },
+    "activity": {
+      "title": "Activity & Recommendations",
+      "recentlyViewed": "Recently Viewed",
+      "recommendations": "Recommended for You",
+      "stats": "Activity Statistics",
+      "clearHistory": "Clear History",
+      "noRecentlyViewed": "No recently viewed tools",
+      "noRecommendations": "No recommendations available yet"
+    },
+    "stats": {
+      "totalViews": "Total Views",
+      "totalFavorites": "Favorites",
+      "totalComments": "Comments",
+      "totalSubmissions": "Submissions"
+    },
+    "settings": {
+      "title": "Account Settings",
+      "privacy": {
+        "title": "Privacy Settings",
+        "description": "Control how your profile and activity are visible to others.",
+        "publicProfile": "Make my profile public",
+        "showEmail": "Show email address",
+        "showActivity": "Show activity history"
+      },
+      "notifications": {
+        "title": "Notification Settings",
+        "description": "Choose what notifications you'd like to receive.",
+        "newTools": "Email notifications for new tools",
+        "comments": "Email notifications for comments",
+        "newsletter": "Newsletter and updates",
+        "push": "Push notifications"
+      },
+      "account": {
+        "title": "Account Management",
+        "dataExport": "Export Your Data",
+        "dataExportDescription": "Download a copy of your data including favorites, comments, and activity.",
+        "exportData": "Export Data",
+        "changePassword": "Change Password",
+        "changePasswordDescription": "Update your account password for better security.",
+        "changePasswordButton": "Change Password"
+      },
+      "danger": {
+        "title": "Danger Zone",
+        "description": "These actions cannot be undone. Please be careful.",
+        "deleteAccount": "Delete Account"
+      }
+    },
+    "confirm": {
+      "deleteAccount": "Are you sure you want to delete your account? This action cannot be undone."
+    },
+    "info": {
+      "deleteAccountNotImplemented": "Account deletion is not yet implemented"
+    }
   }
 }

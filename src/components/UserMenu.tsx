@@ -187,7 +187,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ className = '' }) => {
 
             {/* 设置 */}
             <button
-              onClick={() => handleMenuClick('/settings')}
+              onClick={() => handleMenuClick('/profile#settings')}
               className="w-full flex items-center px-4 py-2 text-sm text-foreground hover:bg-accent transition-colors"
             >
               <Settings className="h-4 w-4 mr-3 text-muted-foreground" />

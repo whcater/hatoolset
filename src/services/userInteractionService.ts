@@ -9,10 +9,30 @@ export interface UserInteraction {
 }
 
 export interface UserFavorite {
-  id: string;
-  user_id: string;
+  id: number;
+  user_id: number;
   tool_id: number;
-  tool: any; // Tool object
+  tool: {
+    id: number;
+    name: string;
+    description: string;
+    url: string;
+    icon_url: string;
+    screenshot_url?: string;
+    pricing: 'free' | 'paid' | 'freemium';
+    platform: 'web' | 'desktop' | 'mobile' | 'api';
+    rating: number;
+    views: number;
+    clicks: number;
+    favorites: number;
+    shares: number;
+    featured: boolean;
+    trending: boolean;
+    verified: boolean;
+    category_name: string;
+    category_icon: string;
+    category_color: string;
+  };
   created_at: string;
 }
 
@@ -50,8 +70,34 @@ class UserInteractionService {
     total: number;
     page: number;
     pages: number;
+    has_prev: boolean;
+    has_next: boolean;
   }> {
-    return apiClient.get(`${API_ENDPOINTS.users.profile}/favorites?page=${page}&limit=${limit}`);
+    let response: any = await apiClient.get(`${API_ENDPOINTS.tools.list}/favorites?page=${page}&limit=${limit}`);
+    
+    // 处理真实API返回的结构：{ favorites: [...], pagination: {...} }
+    // 注意：apiClient.get() 已经返回了 response.data，所以这里直接是 { favorites: [...], pagination: {...} }
+    response = response.data;
+    if (response.favorites && response.pagination) {
+      return {
+        favorites: response.favorites,
+        total: response.pagination.total,
+        page: response.pagination.page,
+        pages: response.pagination.pages,
+        has_prev: response.pagination.has_prev,
+        has_next: response.pagination.has_next
+      };
+    }
+    
+    // 兼容其他可能的格式
+    return {
+      favorites: response.favorites || [],
+      total: response.pagination?.total || 0,
+      page: response.pagination?.page || 1,
+      pages: response.pagination?.pages || 0,
+      has_prev: response.pagination?.has_prev || false,
+      has_next: response.pagination?.has_next || false
+    };
   }
 
   async isFavorite(toolId: number): Promise<boolean> {
@@ -141,6 +187,31 @@ class UserInteractionService {
   }
 
   // User Profile
+  async getUserProfile(): Promise<{
+    id: number;
+    uid: number;
+    name: string;
+    username: string;
+    email: string;
+    bio: string;
+    company: string;
+    position: string;
+    website: string;
+    avatar_url: string;
+    photoURL: string;
+    role: string;
+  }> {
+    console.log('Calling getUserProfile API...');
+    try {
+      const response = await apiClient.get('/api/users/me/profile');
+      console.log('Profile API response:', response);
+      return response.data;
+    } catch (error) {
+      console.error('getUserProfile API error:', error);
+      throw error;
+    }
+  }
+
   async updateProfile(data: {
     username?: string;
     bio?: string;
@@ -222,6 +293,82 @@ class UserInteractionService {
         join_date: new Date().toISOString()
       };
     }
+  }
+
+  // User Comments (for profile page)
+  async getUserComments(page: number = 1, limit: number = 20): Promise<{
+    comments: UserComment[];
+    total: number;
+    page: number;
+    pages: number;
+  }> {
+    try {
+      return await apiClient.get(`${API_ENDPOINTS.users.profile}/comments?page=${page}&limit=${limit}`);
+    } catch (error) {
+      console.error('Error fetching user comments:', error);
+      return {
+        comments: [],
+        total: 0,
+        page: 1,
+        pages: 0
+      };
+    }
+  }
+
+  // Notification Settings
+  async getNotificationSettings(): Promise<any> {
+    try {
+      return await apiClient.get(`${API_ENDPOINTS.users.settings}/notifications`);
+    } catch (error) {
+      console.error('Error fetching notification settings:', error);
+      return {
+        email_new_tools: true,
+        email_comments: false,
+        email_newsletter: false,
+        push_enabled: false
+      };
+    }
+  }
+
+  async updateNotificationSettings(settings: any): Promise<void> {
+    return apiClient.put(`${API_ENDPOINTS.users.settings}/notifications`, settings);
+  }
+
+  // Privacy Settings
+  async getPrivacySettings(): Promise<any> {
+    try {
+      return await apiClient.get(`${API_ENDPOINTS.users.settings}/privacy`);
+    } catch (error) {
+      console.error('Error fetching privacy settings:', error);
+      return {
+        profile_public: true,
+        show_email: false,
+        show_activity: true
+      };
+    }
+  }
+
+  async updatePrivacySettings(settings: any): Promise<void> {
+    return apiClient.put(`${API_ENDPOINTS.users.settings}/privacy`, settings);
+  }
+
+  // Account Management
+  async exportUserData(): Promise<Blob> {
+    const response = await apiClient.get(`${API_ENDPOINTS.users.profile}/export`, {
+      responseType: 'blob'
+    });
+    return response;
+  }
+
+  async deleteAccount(): Promise<void> {
+    return apiClient.delete(`${API_ENDPOINTS.users.profile}`);
+  }
+
+  async changePassword(currentPassword: string, newPassword: string): Promise<void> {
+    return apiClient.put(`${API_ENDPOINTS.users.changePassword}`, {
+      current_password: currentPassword,
+      new_password: newPassword
+    });
   }
 
   // Local Storage Helpers (for offline functionality)

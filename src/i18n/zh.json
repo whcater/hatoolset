@@ -4,6 +4,9 @@
     "submit": "提交",
     "cancel": "取消",
     "confirm": "确认",
+    "save": "保存",
+    "edit": "编辑",
+    "delete": "删除",
     "loading": "加载中...",
     "error": "错误",
     "success": "成功",
@@ -107,5 +110,127 @@
     "privacy": "隐私政策",
     "terms": "服务条款",
     "copyright": "© 2025 HAI 工具集。版权所有。"
+  },
+  "profile": {
+    "notLoggedIn": "请登录以查看您的个人资料",
+    "loginRequired": "您需要登录才能访问此页面",
+    "tabs": {
+      "favorites": "收藏",
+      "comments": "评论",
+      "activity": "活动",
+      "settings": "设置"
+    },
+    "sections": {
+      "information": "个人信息"
+    },
+    "form": {
+      "fullName": "全名",
+      "username": "用户名",
+      "bio": "个人简介",
+      "bioPlaceholder": "介绍一下您自己...",
+      "website": "网站",
+      "company": "公司",
+      "companyPlaceholder": "您的公司",
+      "position": "职位",
+      "positionPlaceholder": "您的职位",
+      "joined": "加入时间",
+      "noBio": "暂无个人简介",
+      "noWebsite": "暂无网站信息",
+      "noCompany": "暂无公司信息",
+      "noPosition": "暂无职位信息"
+    },
+    "actions": {
+      "edit": "编辑资料"
+    },
+    "success": {
+      "updated": "资料更新成功",
+      "avatarUploaded": "头像更新成功",
+      "favoriteRemoved": "已从收藏中移除",
+      "settingsUpdated": "设置已更新"
+    },
+    "error": {
+      "loadFailed": "加载个人资料失败",
+      "updateFailed": "更新资料失败",
+      "avatarFailed": "上传头像失败",
+      "invalidFileType": "请选择有效的图片文件",
+      "fileTooLarge": "文件大小不能超过 5MB",
+      "commentsFailed": "加载评论失败",
+      "removeFavoriteFailed": "移除收藏失败",
+      "settingsFailed": "更新设置失败",
+      "deleteAccountFailed": "删除账户失败"
+    },
+    "favorites": {
+      "title": "我的收藏",
+      "viewAll": "查看全部",
+      "remove": "从收藏中移除",
+      "empty": {
+        "title": "暂无收藏",
+        "description": "开始探索工具并将它们添加到收藏夹，就能在这里看到了。",
+        "explore": "探索工具"
+      }
+    },
+    "comments": {
+      "title": "我的评论",
+      "viewAll": "查看全部",
+      "viewTool": "查看工具",
+      "empty": {
+        "title": "暂无评论",
+        "description": "分享您对工具的想法，帮助社区，您的评论将显示在这里。",
+        "explore": "探索工具"
+      }
+    },
+    "activity": {
+      "title": "活动与推荐",
+      "recentlyViewed": "最近浏览",
+      "recommendations": "为您推荐",
+      "stats": "活动统计",
+      "clearHistory": "清除历史",
+      "noRecentlyViewed": "暂无最近浏览的工具",
+      "noRecommendations": "暂无推荐内容"
+    },
+    "stats": {
+      "totalViews": "总浏览量",
+      "totalFavorites": "收藏数",
+      "totalComments": "评论数",
+      "totalSubmissions": "提交数"
+    },
+    "settings": {
+      "title": "账户设置",
+      "privacy": {
+        "title": "隐私设置",
+        "description": "控制您的个人资料和活动对他人的可见性。",
+        "publicProfile": "公开我的个人资料",
+        "showEmail": "显示邮箱地址",
+        "showActivity": "显示活动历史"
+      },
+      "notifications": {
+        "title": "通知设置",
+        "description": "选择您希望接收的通知类型。",
+        "newTools": "新工具邮件通知",
+        "comments": "评论邮件通知",
+        "newsletter": "新闻通讯和更新",
+        "push": "推送通知"
+      },
+      "account": {
+        "title": "账户管理",
+        "dataExport": "导出您的数据",
+        "dataExportDescription": "下载包含收藏、评论和活动的数据副本。",
+        "exportData": "导出数据",
+        "changePassword": "修改密码",
+        "changePasswordDescription": "更新您的账户密码以提高安全性。",
+        "changePasswordButton": "修改密码"
+      },
+      "danger": {
+        "title": "危险操作",
+        "description": "这些操作无法撤销，请谨慎操作。",
+        "deleteAccount": "删除账户"
+      }
+    },
+    "confirm": {
+      "deleteAccount": "您确定要删除您的账户吗？此操作无法撤销。"
+    },
+    "info": {
+      "deleteAccountNotImplemented": "账户删除功能尚未实现"
+    }
   }
 }
