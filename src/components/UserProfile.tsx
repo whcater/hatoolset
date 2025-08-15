@@ -15,13 +15,12 @@ import {
   Briefcase,
   Edit3,
   Star,
-  TrendingUp,
   Clock,
   Bookmark
 } from 'lucide-react';
 import { userInteractionService, UserFavorite, UserComment } from '../services/userInteractionService';
-import { ToolCard } from './ToolCard';
-import { LoadingSpinner } from './ui/LoadingSpinner';
+import ToolCard from './ToolCard';
+import LoadingSpinner from './ui/LoadingSpinner';
 
 interface UserProfile {
   id: string;
@@ -44,7 +43,6 @@ interface UserStats {
 }
 
 export function UserProfile() {
-  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'favorites' | 'comments' | 'activity' | 'settings'>('favorites');
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<UserProfile | null>(null);
@@ -120,9 +118,7 @@ export function UserProfile() {
       setFavorites(response.favorites);
     } catch (error) {
       console.error('Error loading favorites:', error);
-      // Fallback to localStorage
-      const localFavorites = userInteractionService.getFavoritesFromStorage();
-      // Mock favorites data
+      // Fallback to localStorage - Mock favorites data
       setFavorites([]);
     } finally {
       setLoading(false);
@@ -178,7 +174,7 @@ export function UserProfile() {
   const loadActivity = async () => {
     try {
       setLoading(true);
-      const activity = await userInteractionService.getUserActivity(1, 20);
+      await userInteractionService.getUserActivity(1, 20);
       // Handle activity data
     } catch (error) {
       console.error('Error loading activity:', error);
