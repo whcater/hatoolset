@@ -102,7 +102,7 @@ class UserInteractionService {
 
   async isFavorite(toolId: number): Promise<boolean> {
     try {
-      const response = await apiClient.get(`${API_ENDPOINTS.tools.list}/${toolId}/favorite/status`);
+      const response : any = await apiClient.get(`${API_ENDPOINTS.tools.list}/${toolId}/favorite/status`);
       return response.is_favorite;
     } catch (error) {
       console.error('Error checking favorite status:', error);
@@ -164,7 +164,7 @@ class UserInteractionService {
 
   async getRecentlyViewed(limit: number = 10): Promise<any[]> {
     try {
-      const response = await apiClient.get(`${API_ENDPOINTS.users.profile}/recently-viewed?limit=${limit}`);
+      const response : any = await apiClient.get(`${API_ENDPOINTS.users.profile}/recently-viewed?limit=${limit}`);
       return response.tools || [];
     } catch (error) {
       console.error('Error fetching recently viewed:', error);
@@ -203,7 +203,7 @@ class UserInteractionService {
   }> {
     console.log('Calling getUserProfile API...');
     try {
-      const response = await apiClient.get('/api/users/me/profile');
+      const response : any = await apiClient.get('/api/users/me/profile');
       console.log('Profile API response:', response);
       return response.data;
     } catch (error) {
@@ -231,7 +231,7 @@ class UserInteractionService {
   // Search History
   async getSearchHistory(limit: number = 10): Promise<string[]> {
     try {
-      const response = await apiClient.get(`${API_ENDPOINTS.users.profile}/search-history?limit=${limit}`);
+      const response : any = await apiClient.get(`${API_ENDPOINTS.users.profile}/search-history?limit=${limit}`);
       return response.queries || [];
     } catch (error) {
       console.error('Error fetching search history:', error);
@@ -265,7 +265,7 @@ class UserInteractionService {
   // Tool Recommendations
   async getRecommendations(limit: number = 10): Promise<any[]> {
     try {
-      const response = await apiClient.get(`${API_ENDPOINTS.users.profile}/recommendations?limit=${limit}`);
+      const response : any = await apiClient.get(`${API_ENDPOINTS.users.profile}/recommendations?limit=${limit}`);
       return response.tools || [];
     } catch (error) {
       console.error('Error fetching recommendations:', error);
@@ -354,7 +354,7 @@ class UserInteractionService {
 
   // Account Management
   async exportUserData(): Promise<Blob> {
-    const response = await apiClient.get(`${API_ENDPOINTS.users.profile}/export`, {
+    const response : any = await apiClient.get(`${API_ENDPOINTS.users.profile}/export`, {
       responseType: 'blob'
     });
     return response;
