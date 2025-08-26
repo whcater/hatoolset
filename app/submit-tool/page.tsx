@@ -310,22 +310,7 @@ export default function SubmitToolPage() {
               {/* Form */}
               <div className="lg:col-span-2">
                 <div className="bg-background/80 backdrop-blur rounded-xl border border-border p-6">
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Tool Name */}
-                    <div>
-                      <label className="block text-sm font-medium mb-2">
-                        {t('submit.toolName', 'Tool Name')} <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.name}
-                        onChange={(e) => handleInputChange('name', e.target.value)}
-                        className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                        placeholder={t('submit.toolNamePlaceholder', 'Enter tool name')}
-                        required
-                      />
-                    </div>
-
+                  <form onSubmit={handleSubmit} className="space-y-6"> 
                     {/* Tool URL */}
                     <div>
                       <label className="block text-sm font-medium mb-2">
@@ -346,6 +331,20 @@ export default function SubmitToolPage() {
                           {t('submit.generatingPreview', 'Generating preview...')}
                         </div>
                       )}
+                    </div>
+                    {/* Tool Name */}
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
+                        {t('submit.toolName', 'Tool Name')} <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.name}
+                        onChange={(e) => handleInputChange('name', e.target.value)}
+                        className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                        placeholder={t('submit.toolNamePlaceholder', 'Enter tool name')}
+                        required
+                      />
                     </div>
 
                     {/* Description */}
