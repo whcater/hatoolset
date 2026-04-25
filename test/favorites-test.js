@@ -1,7 +1,7 @@
 // Simple test file to verify favorites functionality
 const fetch = require('node-fetch');
 
-const API_BASE = 'http://localhost:8787';
+const API_BASE = 'http://localhost:8788';
 
 async function testFavoritesAPI() {
   console.log('Testing favorites API...');

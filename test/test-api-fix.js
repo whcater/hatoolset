@@ -6,7 +6,7 @@ async function testApiProxy() {
   // Test 1: Direct backend connection
   try {
     console.log('1. Testing direct backend connection...');
-    const backendResponse = await axios.get('http://localhost:8787/api/tool-categories', {
+    const backendResponse = await axios.get('http://localhost:8788/api/tool-categories', {
       timeout: 5000
     });
     console.log('✅ Backend direct connection successful');
@@ -15,7 +15,7 @@ async function testApiProxy() {
     console.log('   Data preview:', JSON.stringify(backendResponse.data).substring(0, 100) + '...\n');
   } catch (error) {
     console.log('❌ Backend direct connection failed:', error.message);
-    console.log('   This means hai-backend is not running on port 8787\n');
+    console.log('   This means hai-backend is not running on port 8788\n');
     return;
   }
 

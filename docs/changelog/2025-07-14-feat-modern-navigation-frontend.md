@@ -233,7 +233,7 @@ npm run type-check
 4. **样式冲突**: TailwindCSS配置 → 优化配置文件
 
 ### 注意事项
-- 确保hai-backend在端口8787运行
+- 确保hai-backend在端口8788运行
 - 检查API端点的可访问性
 - 注意组件的懒加载实现
 - 保持代码的类型安全

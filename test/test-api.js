@@ -1,7 +1,7 @@
 // 简单的API测试脚本
 const fetch = require('node-fetch');
 
-const BASE_URL = 'http://localhost:8787';
+const BASE_URL = 'http://localhost:8788';
 
 async function testAPI() {
   console.log('测试hai-backend API连接...\n');

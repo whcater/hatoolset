@@ -77,7 +77,7 @@ translation: {
 ### 🔌 API 集成
 ```typescript
 // API 客户端配置
-- 基础URL: http://localhost:8787
+- 基础URL: http://localhost:8788
 - 请求拦截器: 自动添加认证token
 - 响应拦截器: 错误处理和token过期重定向
 - 超时设置: 10秒
@@ -239,6 +239,6 @@ translation: {
 **部署状态**: 开发中  
 **相关链接**: 
 - 前端开发服务器: http://localhost:3002
-- 后端API服务器: http://localhost:8787
+- 后端API服务器: http://localhost:8788
 - 设计稿: [Figma链接]
 - API文档: [Swagger文档] 

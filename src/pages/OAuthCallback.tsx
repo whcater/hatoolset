@@ -68,7 +68,7 @@ const OAuthCallback: React.FC<OAuthCallbackProps> = ({ onSuccess, onError }) => 
           
           try {
             // 发送到后端进行token交换
-            // const apiUrl = import.meta.env.VITE_APP_API_URL || 'http://localhost:8787';
+            // const apiUrl = import.meta.env.VITE_APP_API_URL || 'http://localhost:8788';
             const response = await fetch(`/api/auth/google/callback?code=${code}`);
             
             if (!response.ok) {

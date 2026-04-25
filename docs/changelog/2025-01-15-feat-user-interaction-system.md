@@ -419,7 +419,7 @@ useEffect(() => {
 4. **性能问题**: 大量数据渲染卡顿 → 实现虚拟滚动和懒加载
 
 ### 注意事项
-- 确保hai-backend在端口8787运行
+- 确保hai-backend在端口8788运行
 - 检查API端点的可访问性
 - 注意用户认证状态管理
 - 保持数据的一致性和完整性
@@ -430,7 +430,7 @@ useEffect(() => {
 ```bash
 # .env.local
 NEXT_PUBLIC_APP_URL=http://localhost:3002
-NEXT_PUBLIC_BACKEND_URL=http://localhost:8787
+NEXT_PUBLIC_BACKEND_URL=http://localhost:8788
 NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=GA_MEASUREMENT_ID
 ```
 
